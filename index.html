@@ -135,10 +135,6 @@
         <h3>Conexão e filtros</h3>
         <div class="progress"><span id="bar"></span></div>
         <div class="field editable">
-          <label for="checklistId">ID do checklist</label>
-          <input id="checklistId" value="topografia-executivo" />
-        </div>
-        <div class="field editable">
 		  <label for="checklistId">ID do checklist</label>
 		  <input id="checklistId" list="checklistIdList" value="topografia-executivo" />
 		  <datalist id="checklistIdList"></datalist>
@@ -313,7 +309,20 @@
         updateStats();
       });
     }
+	function loadChecklistIds() {
+	  const checklistIdList = document.getElementById("checklistIdList");
+	  const idsRef = ref(db, "checklistIds");
 
+	  onValue(idsRef, (snapshot) => {
+		checklistIdList.innerHTML = "";
+		snapshot.forEach((child) => {
+		  const value = child.val();
+		  const option = document.createElement("option");
+		  option.value = value;
+		  checklistIdList.appendChild(option);
+		});
+	  });
+	}
     function init() {
       if (!configured()) {
         setAuthUI('off', 'Aguardando configuração', 'Preencha o objeto firebaseConfig antes de publicar.');
@@ -337,6 +346,12 @@
         }
       });
       updateStats();
+	  
+		const app = initializeApp(firebaseConfig);
+		db = getDatabase(app);
+		auth = getAuth(app);
+		bindRealtime();
+		loadChecklistIds();
     }
 
     loginBtn.addEventListener('click', async () => {
