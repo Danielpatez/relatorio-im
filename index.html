@@ -29,8 +29,24 @@
 	.title-main {
 	  display: flex;
 	  align-items: center;
-	  gap: 16px;
-	  flex-wrap: nowrap;
+	  justify-content: space-between;
+	  gap: 24px;
+	}
+
+	.title-text {
+	  flex: 1;
+	  min-width: 0;
+	}
+
+	.title h1 {
+	  margin: 0;
+	  font: clamp(2rem, 4vw, 3.8rem)/1 var(--font-display);
+	}
+
+	.title p {
+	  margin: .55rem 0 0;
+	  color: var(--muted);
+	  max-width: 80ch;
 	}
 
 	#titleLogo {
@@ -38,29 +54,39 @@
 	  width: auto;
 	  display: block;
 	  flex-shrink: 0;
+	  border-radius: var(--radius-sm);
+	  box-shadow: var(--shadow);
 	}
 
 	@media (max-width: 768px) {
 	  .title-main {
 		flex-direction: column;
 		align-items: flex-start;
-		gap: 10px;
 	  }
 
 	  #titleLogo {
 		height: 48px;
 	  }
-}
+	}
   </style>
 </head>
 <body>
   <div class="app" id="appRoot">
     <div class="topbar">
-      <div class="title">
-        <h1>Checklist Topografia IM</h1>
-		<img src="https://raw.githubusercontent.com/Danielpatez/relatorio-im/main/src/logo-topografia.png" alt="Logo" id="titleLogo" />
-        <p> <strong>Leitura pública</strong> e <strong>edição restrita a usuários autenticados</strong>.</p>
-      </div>
+     <div class="title">
+  <div class="title-main">
+    <div class="title-text">
+      <h1>Checklist Topografia IM</h1>
+      <p><strong>Leitura pública</strong> e <strong>edição restrita a usuários autenticados</strong>.</p>
+    </div>
+
+    <img 
+      src="https://raw.githubusercontent.com/Danielpatez/relatorio-im/main/src/logo-topografia.png" 
+      alt="Logo" 
+      id="titleLogo" 
+    />
+  </div>
+</div>
       <div class="toolbar">
         <button class="btn" id="themeBtn">Alternar tema</button>
       </div>
