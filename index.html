@@ -26,14 +26,32 @@
     .readonly .editable{opacity:.56;pointer-events:none}.banner{padding:14px 16px;border-radius:14px;background:color-mix(in srgb,var(--warn) 10%, var(--surface));border:1px solid color-mix(in srgb,var(--warn) 24%, var(--border));margin-top:14px}
     .hidden{display:none}.danger{color:var(--danger)}
     @media (max-width:1024px){.hero,.layout,.stats{grid-template-columns:1fr}.sidebar{position:relative;top:0}}
+	.title-main {
+	  display: flex;
+	  justify-content: space-between;
+	  align-items: center;
+	  gap: 20px;
+	  margin-bottom: 12px;
+	}
+	#titleLogo {
+	  height: 64px;
+	  width: auto;
+	  border-radius: var(--radius-sm);
+	  box-shadow: var(--shadow);
+	}
+	@media (max-width: 768px) {
+	  .title-main { flex-direction: column; align-items: flex-start; gap: 12px; }
+	  #titleLogo { height: 48px; }
+	}
   </style>
 </head>
 <body>
   <div class="app" id="appRoot">
     <div class="topbar">
       <div class="title">
-        <h1>Checklist Topografia</h1>
-        <p>Versão com <strong>leitura pública</strong> e <strong>edição restrita a usuários autenticados</strong> via Firebase Authentication. Quem estiver sem login consegue consultar; quem estiver autenticado consegue editar e gravar no Realtime Database.</p>
+        <h1>Checklist Topografia IM</h1>
+		<img src="https://github.com/Danielpatez/relatorio-im/blob/main/src/logo-topografia.png" alt="Logo" id="titleLogo" />
+        <p> <strong>Leitura pública</strong> e <strong>edição restrita a usuários autenticados</strong>.</p>
       </div>
       <div class="toolbar">
         <button class="btn" id="themeBtn">Alternar tema</button>
@@ -42,9 +60,9 @@
 
     <section class="hero">
       <div class="card">
-        <span class="chip">Firebase Auth + Realtime Database</span>
+        <span class="chip">Revisão de Base Topgráfica</span>
         <h2 style="margin:.8rem 0 0">Checklist compartilhado com controle de edição</h2>
-        <p style="color:var(--muted)">O conteúdo fica visível para qualquer pessoa com o link, mas a edição só é liberada quando o usuário faz login. As regras do banco devem permitir <code>.read: true</code> e <code>.write: auth != null</code>.</p>
+        <p style="color:var(--muted)">O conteúdo fica visível para qualquer pessoa com o link, mas a edição só é liberada quando o usuário faz login.</p>
         <div class="stats">
           <div class="stat"><strong id="done">0</strong><span>itens concluídos</span></div>
           <div class="stat"><strong id="total">0</strong><span>itens totais</span></div>
@@ -312,6 +330,11 @@
       const root = document.documentElement;
       root.setAttribute('data-theme', root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
     });
+	
+		// Fallback para logo
+	document.getElementById('titleLogo').onerror = function() {
+	  this.src = 'https://via.placeholder.com/240x64/0d6267/ffffff?text=LOGO';
+	};
 
     init();
   </script>
