@@ -28,21 +28,29 @@
     @media (max-width:1024px){.hero,.layout,.stats{grid-template-columns:1fr}.sidebar{position:relative;top:0}}
 	.title-main {
 	  display: flex;
-	  justify-content: space-between;
 	  align-items: center;
-	  gap: 20px;
-	  margin-bottom: 12px;
+	  gap: 16px;
+	  flex-wrap: nowrap;
 	}
+
 	#titleLogo {
 	  height: 64px;
 	  width: auto;
-	  border-radius: var(--radius-sm);
-	  box-shadow: var(--shadow);
+	  display: block;
+	  flex-shrink: 0;
 	}
+
 	@media (max-width: 768px) {
-	  .title-main { flex-direction: column; align-items: flex-start; gap: 12px; }
-	  #titleLogo { height: 48px; }
-	}
+	  .title-main {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 10px;
+	  }
+
+	  #titleLogo {
+		height: 48px;
+	  }
+}
   </style>
 </head>
 <body>
@@ -50,7 +58,7 @@
     <div class="topbar">
       <div class="title">
         <h1>Checklist Topografia IM</h1>
-		<img src="https://raw.githubusercontent.com/Danielpatez/relatorio-im/main/src/logo-topografia.png" alt="Logo" id="titleLogo" />
+		<img src="https://github.com/Danielpatez/relatorio-im/blob/main/src/logo-topografia.png" alt="Logo" id="titleLogo" />
         <p> <strong>Leitura pública</strong> e <strong>edição restrita a usuários autenticados</strong>.</p>
       </div>
       <div class="toolbar">
