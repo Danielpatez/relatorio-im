@@ -50,7 +50,7 @@
 	}
 
 	#titleLogo {
-	  height: 96px;
+	  height: 64px;
 	  width: auto;
 	  display: block;
 	  flex-shrink: 0;
@@ -139,9 +139,10 @@
           <input id="checklistId" value="topografia-executivo" />
         </div>
         <div class="field editable">
-          <label for="globalRevision">Revisão / rodada</label>
-          <input id="globalRevision" placeholder="Ex.: Rev-03" />
-        </div>
+		  <label for="checklistId">ID do checklist</label>
+		  <input id="checklistId" list="checklistIdList" value="topografia-executivo" />
+		  <datalist id="checklistIdList"></datalist>
+		</div>
         <div class="field editable">
           <label for="globalNotes">Observações gerais</label>
           <textarea id="globalNotes" placeholder="Anote pendências, bloqueios e observações de conferência"></textarea>
@@ -221,6 +222,18 @@
     const loginBtn = document.getElementById('loginBtn');
     const logoutBtn = document.getElementById('logoutBtn');
     const checklistIdInput = document.getElementById('checklistId');
+	const idsRef = ref(db, "checklistIds");
+
+	onValue(idsRef, (snapshot) => {
+	  checklistIdList.innerHTML = "";
+
+	  snapshot.forEach((child) => {
+		const value = child.val();
+		const option = document.createElement("option");
+		option.value = value;
+		checklistIdList.appendChild(option);
+	  });
+	});
     const globalRevisionInput = document.getElementById('globalRevision');
     const globalNotesInput = document.getElementById('globalNotes');
     const done = document.getElementById('done');
