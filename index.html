@@ -136,8 +136,7 @@
         <div class="progress"><span id="bar"></span></div>
         <div class="field editable">
 		  <label for="checklistId">ID do checklist</label>
-		  <input id="checklistId" list="checklistIdList"  autocomplete="off" value="topografia-executivo" />
-		  <datalist id="checklistIdList"></select>
+		  <select id="checklistId"></select>
 		</div>
         <div class="field editable">
           <label for="globalNotes">Observações gerais</label>
@@ -304,21 +303,23 @@
 	  });
 	}
 
+	
 	  function loadChecklistIds() {
-		  const checklistIdList = document.getElementById('checklistIdList');
-		  const idsRef = ref(db, 'checklistIds');
-		
-		  onValue(idsRef, (snapshot) => {
-		    checklistIdList.innerHTML = '';
-		
-		    snapshot.forEach((child) => {
-		      const value = child.val();
-		      const option = document.createElement('option');
-		      option.value = value;
-		      checklistIdList.appendChild(option);
-		    });
-		  });
-		}
+	  if (!db) return;
+	  const checklistIdSelect = document.getElementById('checklistId');
+	  const idsRef = ref(db, 'checklistIds');
+	
+	  onValue(idsRef, (snapshot) => {
+	    checklistIdSelect.innerHTML = '';
+	    snapshot.forEach((child) => {
+	      const value = child.val();
+	      const option = document.createElement('option');
+	      option.value = value;
+	      option.textContent = value;
+	      checklistIdSelect.appendChild(option);
+	    });
+	  });
+	}
 
 	function init() {
 	  if (!configured()) {
