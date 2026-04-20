@@ -145,8 +145,8 @@
         </div>
         <div class="group-list">
           <button class="group-btn active" data-target="all">Todos os itens</button>
-          <button class="group-btn" data-target="planta">06-TOP-DE • Planta</button>
-          <button class="group-btn" data-target="relatorio">06-TOP-RE • Relatório</button>
+          <button class="group-btn" data-target="planta">Planta</button>
+          <button class="group-btn" data-target="relatorio">Relatório</button>
           <button class="group-btn" data-target="pendentes">Somente pendências</button>
         </div>
         <div class="banner" id="readonlyBanner">
@@ -156,7 +156,7 @@
 
       <div>
         <section class="card section dataset planta">
-          <div class="section-head"><div><h2>06-TOP-DE • Planta</h2><p style="margin:0;color:var(--muted)">Itens gráficos, georreferenciamento, elementos ferroviários, marcos, drenagem e exigências de prancha.</p></div><span class="chip">Desenho executivo</span></div>
+          <div class="section-head"><div><h2>Planta</h2><p style="margin:0;color:var(--muted)">Itens gráficos, georreferenciamento, elementos ferroviários, marcos, drenagem e exigências de prancha.</p></div><span class="chip">Desenho executivo</span></div>
           <div class="item editable"><input type="checkbox" data-item-id="planta-01"><div><strong>Representação do eixo de vias existentes</strong><div class="meta">Item 6.1.1.1</div></div><span class="tag">Planta</span></div>
           <div class="item editable"><input type="checkbox" data-item-id="planta-02"><div><strong>Representação do bordo de terraplenagem e taludes existentes</strong><div class="meta">Item 6.1.1.2</div></div><span class="tag">Planta</span></div>
           <div class="item editable"><input type="checkbox" data-item-id="planta-03"><div><strong>Offsets de taludes e compatibilidade geométrica</strong><div class="meta">Item 6.1.1.3</div></div><span class="tag">Planta</span></div>
@@ -173,7 +173,7 @@
         </section>
 
         <section class="card section dataset relatorio">
-          <div class="section-head"><div><h2>06-TOP-RE • Relatório</h2><p style="margin:0;color:var(--muted)">Itens documentais de metodologia, monografia, bases validadas e anexos de dados brutos.</p></div><span class="chip">Relatório técnico</span></div>
+          <div class="section-head"><div><h2>Relatório</h2><p style="margin:0;color:var(--muted)">Itens documentais de metodologia, monografia, bases validadas e anexos de dados brutos.</p></div><span class="chip">Relatório técnico</span></div>
           <div class="item editable"><input type="checkbox" data-item-id="rel-01"><div><strong>Descrição dos serviços realizados</strong><div class="meta">Item 6.1.2.1</div></div><span class="tag">Relatório</span></div>
           <div class="item editable"><input type="checkbox" data-item-id="rel-02"><div><strong>Monografia dos marcos topográficos e de apoio</strong><div class="meta">Item 6.1.2.2</div></div><span class="tag">Monografia</span></div>
           <div class="item editable"><input type="checkbox" data-item-id="rel-03"><div><strong>Monografia da rede de apoio</strong><div class="meta">Item 6.1.2.3</div></div><span class="tag">Rede</span></div>
@@ -190,10 +190,10 @@
   </div>
 
   <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+	import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 	import { getDatabase, ref, onValue, update } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
 	import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-	
+
 	const firebaseConfig = {
 	  apiKey: "AIzaSyBJiUvUHmhrEUG94HWIyqbD5333HbYl3Pc",
 	  authDomain: "projectim-595d2.firebaseapp.com",
@@ -203,7 +203,7 @@
 	  appId: "1:497012905877:web:6e6ea0eae515b68311089c",
 	  measurementId: "G-6JR9X0NMP1"
 	};
-	
+
 	const allChecks = [...document.querySelectorAll('.item input[type="checkbox"]')];
 	const groupBtns = [...document.querySelectorAll('.group-btn')];
 	const datasets = [...document.querySelectorAll('.dataset')];
@@ -224,34 +224,34 @@
 	const pending = document.getElementById('pending');
 	const percent = document.getElementById('percent');
 	const bar = document.getElementById('bar');
-	
+
 	let auth = null;
 	let db = null;
 	let currentUser = null;
 	let currentChecklistRef = null;
 	let isApplyingRemoteState = false;
 	let checklistIdsRef = null;
-	
+
 	function configured() {
 	  return Object.values(firebaseConfig).every(v => v && !String(v).includes("SUA_"));
 	}
-	
+
 	function setAuthUI(mode, title, message) {
 	  authDot.className = 'dot ' + mode;
 	  authStatus.textContent = title;
 	  authMessage.textContent = message;
 	}
-	
+
 	function setEditable(enabled) {
 	  workspace.classList.toggle('readonly', !enabled);
 	  readonlyBanner.classList.toggle('hidden', enabled);
 	  [...document.querySelectorAll('.editable input, .editable textarea, .item input')].forEach(el => {
-	    el.disabled = !enabled;
+		el.disabled = !enabled;
 	  });
 	  groupBtns.forEach(btn => btn.disabled = false);
 	  checklistIdInput.disabled = false;
 	}
-	
+
 	function updateStats() {
 	  const d = allChecks.filter(c => c.checked).length;
 	  const t = allChecks.length;
@@ -262,142 +262,142 @@
 	  percent.textContent = p + '%';
 	  bar.style.width = p + '%';
 	}
-	
+
 	function getChecklistPath() {
 	  const id = (checklistIdInput.value || 'topografia-executivo').trim().replace(/[^a-zA-Z0-9-_]/g, '-');
 	  return `checklists/${id}`;
 	}
-	
+
 	function payload() {
 	  return {
-	    meta: {
-	      notes: globalNotesInput.value,
-	      updatedBy: currentUser?.email || 'anon',
-	      updatedAt: Date.now()
-	    },
-	    items: Object.fromEntries(allChecks.map(cb => [cb.dataset.itemId, !!cb.checked]))
+		meta: {
+		  notes: globalNotesInput.value,
+		  updatedBy: currentUser?.email || 'anon',
+		  updatedAt: Date.now()
+		},
+		items: Object.fromEntries(allChecks.map(cb => [cb.dataset.itemId, !!cb.checked]))
 	  };
 	}
-	
+
 	async function pushState() {
 	  if (!db || !currentChecklistRef || !currentUser || isApplyingRemoteState) return;
 	  await update(currentChecklistRef, payload());
 	}
-	
+
 	function bindRealtime() {
 	  if (!db) return;
 	  currentChecklistRef = ref(db, getChecklistPath());
 	  onValue(currentChecklistRef, (snapshot) => {
-	    const data = snapshot.val();
-	    isApplyingRemoteState = true;
-	
-	    if (data?.items) {
-	      allChecks.forEach(cb => cb.checked = !!data.items[cb.dataset.itemId]);
-	    }
-	
-	    if (data?.meta) {
-	      if (document.activeElement !== globalNotesInput) globalNotesInput.value = data.meta.notes || '';
-	    }
-	
-	    isApplyingRemoteState = false;
-	    updateStats();
+		const data = snapshot.val();
+		isApplyingRemoteState = true;
+
+		if (data?.items) {
+		  allChecks.forEach(cb => cb.checked = !!data.items[cb.dataset.itemId]);
+		}
+
+		if (data?.meta) {
+		  if (document.activeElement !== globalNotesInput) globalNotesInput.value = data.meta.notes || '';
+		}
+
+		isApplyingRemoteState = false;
+		updateStats();
 	  });
 	}
-	
+
 	function loadChecklistIds() {
 	  if (!db) return;
 	  checklistIdsRef = ref(db, 'checklistIds');
-	
+
 	  onValue(checklistIdsRef, (snapshot) => {
-	    checklistIdList.innerHTML = '';
-	    snapshot.forEach((child) => {
-	      const value = child.val();
-	      const option = document.createElement('option');
-	      option.value = value;
-	      checklistIdList.appendChild(option);
-	    });
+		checklistIdList.innerHTML = '';
+		snapshot.forEach((child) => {
+		  const value = child.val();
+		  const option = document.createElement('option');
+		  option.value = value;
+		  checklistIdList.appendChild(option);
+		});
 	  });
 	}
-	
+
 	function init() {
 	  if (!configured()) {
-	    setAuthUI('off', 'Aguardando configuração', 'Preencha o objeto firebaseConfig antes de publicar.');
-	    setEditable(false);
-	    updateStats();
-	    return;
+		setAuthUI('off', 'Aguardando configuração', 'Preencha o objeto firebaseConfig antes de publicar.');
+		setEditable(false);
+		updateStats();
+		return;
 	  }
-	
+
 	  const app = initializeApp(firebaseConfig);
 	  db = getDatabase(app);
 	  auth = getAuth(app);
-	
+
 	  loadChecklistIds();
 	  bindRealtime();
-	
+
 	  onAuthStateChanged(auth, (user) => {
-	    currentUser = user;
-	    if (user) {
-	      setAuthUI('ok', 'Autenticado', `Editando como ${user.email}`);
-	      setEditable(true);
-	    } else {
-	      setAuthUI('off', 'Não autenticado', 'Faça login para editar. Sem login, o checklist fica em leitura.');
-	      setEditable(false);
-	    }
+		currentUser = user;
+		if (user) {
+		  setAuthUI('ok', 'Autenticado', `Editando como ${user.email}`);
+		  setEditable(true);
+		} else {
+		  setAuthUI('off', 'Não autenticado', 'Faça login para editar. Sem login, o checklist fica em leitura.');
+		  setEditable(false);
+		}
 	  });
-	
+
 	  updateStats();
 	}
-	
+
 	loginBtn.addEventListener('click', async () => {
 	  try {
-	    setAuthUI('sync', 'Entrando', 'Validando usuário no Firebase Authentication...');
-	    await signInWithEmailAndPassword(auth, emailInput.value.trim(), passwordInput.value);
+		setAuthUI('sync', 'Entrando', 'Validando usuário no Firebase Authentication...');
+		await signInWithEmailAndPassword(auth, emailInput.value.trim(), passwordInput.value);
 	  } catch (err) {
-	    console.error(err);
-	    setAuthUI('off', 'Falha no login', 'Não foi possível autenticar. Verifique e-mail, senha e método Email/Password habilitado.');
+		console.error(err);
+		setAuthUI('off', 'Falha no login', 'Não foi possível autenticar. Verifique e-mail, senha e método Email/Password habilitado.');
 	  }
 	});
-	
+
 	logoutBtn.addEventListener('click', async () => {
 	  try {
-	    await signOut(auth);
+		await signOut(auth);
 	  } catch (err) {
-	    console.error(err);
+		console.error(err);
 	  }
 	});
-	
+
 	allChecks.forEach(cb => cb.addEventListener('change', () => { updateStats(); pushState(); }));
 	globalNotesInput.addEventListener('input', pushState);
 	checklistIdInput.addEventListener('change', () => {
 	  bindRealtime();
 	  pushState();
 	});
-	
+
 	groupBtns.forEach(btn => btn.addEventListener('click', () => {
 	  groupBtns.forEach(b => b.classList.remove('active'));
 	  btn.classList.add('active');
 	  const target = btn.dataset.target;
 	  if (target === 'all') {
-	    datasets.forEach(s => s.classList.remove('hidden'));
-	    document.querySelectorAll('.item').forEach(i => i.classList.remove('hidden'));
+		datasets.forEach(s => s.classList.remove('hidden'));
+		document.querySelectorAll('.item').forEach(i => i.classList.remove('hidden'));
 	  } else if (target === 'pendentes') {
-	    datasets.forEach(s => s.classList.remove('hidden'));
-	    document.querySelectorAll('.item').forEach(i => i.classList.toggle('hidden', i.querySelector('input').checked));
+		datasets.forEach(s => s.classList.remove('hidden'));
+		document.querySelectorAll('.item').forEach(i => i.classList.toggle('hidden', i.querySelector('input').checked));
 	  } else {
-	    datasets.forEach(s => s.classList.toggle('hidden', !s.classList.contains(target)));
-	    document.querySelectorAll('.item').forEach(i => i.classList.remove('hidden'));
+		datasets.forEach(s => s.classList.toggle('hidden', !s.classList.contains(target)));
+		document.querySelectorAll('.item').forEach(i => i.classList.remove('hidden'));
 	  }
 	}));
-	
+
 	document.getElementById('themeBtn').addEventListener('click', () => {
 	  const root = document.documentElement;
 	  root.setAttribute('data-theme', root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
 	});
-	
+
 	document.getElementById('titleLogo').onerror = function() {
 	  this.src = 'https://via.placeholder.com/240x64/0d6267/ffffff?text=LOGO';
 	};
-	
+
 	init();
   </script>
 </body>
