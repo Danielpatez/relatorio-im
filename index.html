@@ -304,14 +304,20 @@
 	}
 
 	
-	  function loadChecklistIds() {
+	function loadChecklistIds() {
 	  if (!db) return;
 	  const checklistIdSelect = document.getElementById('checklistId');
 	  const idsRef = ref(db, 'checklistIds');
 	
 	  onValue(idsRef, (snapshot) => {
-	    checklistIdSelect.innerHTML = '';
+	    console.log('snapshot exists?', snapshot.exists());
+	    console.log('snapshot val:', snapshot.val());
+	
+	    checklistIdSelect.innerHTML = '<option value="">Selecione...</option>';
+	
 	    snapshot.forEach((child) => {
+	      console.log('child key:', child.key, 'child val:', child.val());
+	
 	      const value = child.val();
 	      const option = document.createElement('option');
 	      option.value = value;
