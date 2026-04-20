@@ -308,6 +308,7 @@
 	
 	function loadChecklistIds() {
 	  if (!db) return;
+	
 	  const checklistIdSelect = document.getElementById('checklistId');
 	  const idsRef = ref(db, 'checklistIds');
 	
@@ -320,7 +321,10 @@
 	    snapshot.forEach((child) => {
 	      console.log('child key:', child.key, 'child val:', child.val());
 	
-	      const value = child.val();
+	      const raw = child.val();
+	      const value = typeof raw === 'string' ? raw : (raw?.name ?? raw?.id ?? '');
+	      if (!value) return;
+	
 	      const option = document.createElement('option');
 	      option.value = value;
 	      option.textContent = value;
