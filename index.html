@@ -320,31 +320,32 @@
 
 	
 	function loadChecklistIds() {
-	  if (!db) return;
+	  console.log('loadChecklistIds chamada');
+	  if (!db) {
+	    console.log('db ainda não existe');
+	    return;
+	  }
 	
 	  const checklistIdSelect = document.getElementById('checklistId');
 	  const idsRef = ref(db, 'checklistIds');
 	
 	  onValue(idsRef, (snapshot) => {
-	    console.log('snapshot exists?', snapshot.exists());
-	    console.log('snapshot val:', snapshot.val());
+	    console.log('onValue disparou');
+	    console.log('exists', snapshot.exists());
+	    console.log('val', snapshot.val());
 	
-	    checklistIdSelect.innerHTML = '<option value="">Selecione...</option>';
-	
+	    checklistIdSelect.innerHTML = '';
 	    snapshot.forEach((child) => {
-	      console.log('child key:', child.key, 'child val:', child.val());
-	
-	      const raw = child.val();
-	      const value = typeof raw === 'string' ? raw : (raw?.name ?? raw?.id ?? '');
-	      if (!value) return;
-	
+	      console.log('child', child.key, child.val());
 	      const option = document.createElement('option');
-	      option.value = value;
-	      option.textContent = value;
+	      option.value = String(child.val() || '');
+	      option.textContent = String(child.val() || '');
 	      checklistIdSelect.appendChild(option);
 	    });
+	  }, (error) => {
+	    console.error('ERRO onValue', error);
 	  });
-	}
+}
 
 	function init() {
 	  if (!configured()) {
