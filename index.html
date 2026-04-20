@@ -135,7 +135,7 @@
         <h3>Conexão e filtros</h3>
         <div class="progress"><span id="bar"></span></div>
         <div class="field editable">
-		  <label for="checklistId">ID do checklist</label>
+		  <label for="checklistId">Nome do Projeto</label>
 		  <select id="checklistId" class="select-field" disabled>
 		    <option value="" selected>Carregando...</option>
 		  </select>
@@ -244,14 +244,20 @@
 	}
 
 	function setEditable(enabled) {
-	  workspace.classList.toggle('readonly', !enabled);
-	  readonlyBanner.classList.toggle('hidden', enabled);
-	  [...document.querySelectorAll('.editable input, .editable textarea, .item input')].forEach(el => {
-		el.disabled = !enabled;
-	  });
-	  groupBtns.forEach(btn => btn.disabled = false);
-	  checklistIdInput.disabled = false;
-	}
+  workspace.classList.toggle('readonly', !enabled);
+  readonlyBanner.classList.toggle('hidden', enabled);
+
+  [...document.querySelectorAll('.editable input, .editable textarea, .item input')].forEach(el => {
+    if (el.id === 'checklistId') {
+      el.disabled = false;
+    } else {
+      el.disabled = !enabled;
+    }
+  });
+
+  groupBtns.forEach(btn => btn.disabled = false);
+  checklistIdInput.disabled = false;
+}
 
 	function updateStats() {
 	  const d = allChecks.filter(c => c.checked).length;
