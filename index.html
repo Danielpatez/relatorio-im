@@ -285,25 +285,38 @@
 	  await update(currentChecklistRef, payload());
 	}
 
+
+	  let unsubscribeChecklist = null;
+
 	function bindRealtime() {
-	  if (!db) return;
-	  currentChecklistRef = ref(db, getChecklistPath());
-	  onValue(currentChecklistRef, (snapshot) => {
-		const data = snapshot.val();
-		isApplyingRemoteState = true;
-
-		if (data?.items) {
-		  allChecks.forEach(cb => cb.checked = !!data.items[cb.dataset.itemId]);
+		  if (!db) return;
+		
+		  if (unsubscribeChecklist) {
+		    unsubscribeChecklist();
+		    unsubscribeChecklist = null;
+		  }
+		
+		  const path = getChecklistPath();
+		  currentChecklistRef = ref(db, path);
+		
+		  unsubscribeChecklist = onValue(currentChecklistRef, (snapshot) => {
+		    const data = snapshot.val();
+		    isApplyingRemoteState = true;
+		
+		    if (data?.items) {
+		      allChecks.forEach(cb => cb.checked = !!data.items[cb.dataset.itemId]);
+		    }
+		
+		    if (data?.meta) {
+		      if (document.activeElement !== globalNotesInput) {
+		        globalNotesInput.value = data.meta.notes || '';
+		      }
+		    }
+		
+		    isApplyingRemoteState = false;
+		    updateStats();
+		  });
 		}
-
-		if (data?.meta) {
-		  if (document.activeElement !== globalNotesInput) globalNotesInput.value = data.meta.notes || '';
-		}
-
-		isApplyingRemoteState = false;
-		updateStats();
-	  });
-	}
 
 	
 	function loadChecklistIds() {
