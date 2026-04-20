@@ -304,20 +304,21 @@
 	  });
 	}
 
-	function loadChecklistIds() {
-	  if (!db) return;
-	  checklistIdsRef = ref(db, 'checklistIds');
-
-	  onValue(checklistIdsRef, (snapshot) => {
-		checklistIdList.innerHTML = '';
-		snapshot.forEach((child) => {
-		  const value = child.val();
-		  const option = document.createElement('option');
-		  option.value = value;
-		  checklistIdList.appendChild(option);
-		});
-	  });
-	}
+	  function loadChecklistIds() {
+		  const checklistIdList = document.getElementById('checklistIdList');
+		  const idsRef = ref(db, 'checklistIds');
+		
+		  onValue(idsRef, (snapshot) => {
+		    checklistIdList.innerHTML = '';
+		
+		    snapshot.forEach((child) => {
+		      const value = child.val();
+		      const option = document.createElement('option');
+		      option.value = value;
+		      checklistIdList.appendChild(option);
+		    });
+		  });
+		}
 
 	function init() {
 	  if (!configured()) {
