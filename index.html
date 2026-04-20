@@ -137,7 +137,7 @@
         <div class="field editable">
 		  <label for="checklistId">ID do checklist</label>
 		  <input id="checklistId" list="checklistIdList"  autocomplete="off" value="topografia-executivo" />
-		  <datalist id="checklistIdList"></datalist>
+		  <datalist id="checklistIdList"></select>
 		</div>
         <div class="field editable">
           <label for="globalNotes">Observações gerais</label>
@@ -334,6 +334,7 @@
 
 	  loadChecklistIds();
 	  bindRealtime();
+
 
 	  onAuthStateChanged(auth, (user) => {
 		currentUser = user;
