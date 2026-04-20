@@ -337,12 +337,21 @@
 		return;
 	  }
 
-	  const app = initializeApp(firebaseConfig);
-	  db = getDatabase(app);
-	  auth = getAuth(app);
+	  console.log("SCRIPT INICIOU");
 
-	  loadChecklistIds();
-	  bindRealtime();
+		try {
+		  console.log("ANTES DO INIT");
+		  const app = initializeApp(firebaseConfig);
+		  console.log("APP OK", app);
+		  db = getDatabase(app);
+		  console.log("DB OK", db);
+		  auth = getAuth(app);
+		  console.log("AUTH OK", auth);
+		  loadChecklistIds();
+		  bindRealtime();
+		} catch (e) {
+		  console.error("ERRO NO INIT", e);
+		}
 
 
 	  onAuthStateChanged(auth, (user) => {
