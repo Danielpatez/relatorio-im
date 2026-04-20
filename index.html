@@ -248,7 +248,7 @@
 	  workspace.classList.toggle('readonly', !enabled);
 	  readonlyBanner.classList.toggle('hidden', enabled);
 	
-	  document.querySelectorAll('.editable input, .editable textarea, .item input').forEach(el => {
+	  [...document.querySelectorAll('.editable input, .editable textarea, .item input')].forEach(el => {
 	    if (el.id === 'checklistId') {
 	      el.disabled = false;
 	    } else {
@@ -257,6 +257,7 @@
 	  });
 	
 	  groupBtns.forEach(btn => btn.disabled = false);
+	  checklistIdInput.disabled = false;
 	}
 
 	function updateStats() {
